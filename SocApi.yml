@@ -1,0 +1,751 @@
+openapi: 3.0.1
+info:
+  title: API SOC - Itau
+  description: 'Carga de colaboradores no SOC - Porto Seguro. Para detalhes de autenticação, consulte a [documentação de autenticação](/api-docs)'
+  contact:
+    name: 'TunnelHub Support'
+    url: 'https://4success.atlassian.net/servicedesk/customer/portal/2'
+    email: 'suporte.tunnelhub@4success.com.br'
+  version: 1.0.0
+servers:
+  - url: http://localhost.api.tunnelhub.com.br
+    description: Servidor de desenvolvimento
+  - url: https://test.api.tunnelhub.app
+    description: Servidor de testes
+  - url: https://api.tunnelhub.app
+    description: Servidor de produção
+tags:
+  - name: Funcionários
+    description: Operações com funcionários no sistema SOC
+
+paths:
+  "/porto-api/v1/customers/itau/employee":
+    post:
+      tags:
+        - Funcionários
+      summary: Cria / atualiza um funcionário no SOC
+      operationId: employee
+      description: Esse método cria ou atualiza um funcionário dentro do SOC.
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/xml
+              - application/json
+            default: application/json
+        - name: Accept
+          in: header
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/xml
+              - application/json
+            default: application/json
+      requestBody:
+        description: Objeto de importação de colaborador
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Colaborador'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Colaborador'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSoc'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RespostaSoc'
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErroGenerico"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ErroGenerico"
+      security:
+        - oauth: [ ]
+        - bearerAuth: [ ]
+  "/porto-api/v1/customers/itau/employee/batch":
+    post:
+      tags:
+        - Funcionários
+      summary: Cria / atualiza funcionários no SOC em lote
+      operationId: employeeBatch
+      description: Esse método cria ou atualiza um lote de funcionários dentro do SOC.
+      requestBody:
+        description: Objeto de importação de colaborador
+        content:
+          application/json:
+            schema:
+              type: array
+              maxItems: 30
+              items:
+                $ref: '#/components/schemas/Colaborador'
+          application/xml:
+            schema:
+              type: object
+              xml:
+                name: Colaboradores
+              properties:
+                Employees:
+                  type: array
+                  maxItems: 30
+                  items:
+                    $ref: '#/components/schemas/Colaborador'
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 30
+                items:
+                  $ref: '#/components/schemas/RespostaSoc'
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: Colaboradores
+                properties:
+                  Employees:
+                    type: array
+                    maxItems: 30
+                    items:
+                      $ref: '#/components/schemas/RespostaSoc'
+        400:
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 30
+                items:
+                  $ref: "#/components/schemas/ErroGenerico"
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: Erros
+                properties:
+                  ErroGenerico_N:
+                    type: array
+                    maxItems: 30
+                    items:
+                      $ref: "#/components/schemas/ErroGenerico"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ErroGenerico"
+            application/xml:
+              schema:
+                "$ref": "#/components/schemas/ErroGenerico"
+      security:
+        - oauth: [ ]
+        - bearerAuth: [ ]
+  "/api/oauth/request_access_token_external":
+    post:
+      tags:
+        - Autenticacao
+      summary: Gera o Token de acesso a API
+      operationId: autenticacao
+      description: Esse método cria um token para a autenticação do usuário
+      parameters:
+      requestBody:
+        description: Objeto de criacao de Token
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyAuth'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BodyAuth'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseToken'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ResponseToken'
+        400:
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErroRequisicao"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/ErroRequisicao"
+      security:
+        - oauth: [ ]
+        - bearerAuth: [ ]
+components:
+  schemas:
+    Colaborador:
+      type: object
+      xml:
+        name: Colaborador
+        wrapped: true
+      properties:
+        codigoSocEmpresa:
+          type: number
+          description: Código da empresa SOC
+          required: true
+        matricula:
+          type: string
+          maxLength: 20
+          description: Matrícula do colaborador
+          example: 'F2200051'
+          required: true
+        nomeFuncionario:
+          type: string
+          maxLength: 60
+          example: 'JOSE BRASIL GARFINKEL'
+          description: Nome do colaborador
+          required: true
+        dtNascimento:
+          type: string
+          format: date
+          description: Data de nascimento do colaborador
+          example: '1990-10-10'
+          required: true
+        sexo:
+          type: string
+          required: true
+          enum:
+            - F
+            - M
+          description: >
+            Sexo do colaborador:
+              * `F` - Feminino
+              * `M` - Masculino
+        estadoCivil:
+          required: true
+          type: string
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+          description: >
+            Estado civil do colaborador:
+              * `1` - Solteiro
+              * `2` - Casado
+              * `3` - Separado
+              * `4` - Divorciado
+              * `5` - Viúvo
+              * `6` - Outros
+        rg:
+          type: string
+          maxLength: 17
+          example: '425949904'
+          description: Documento de identidade do colaborador
+          required: true
+        ufRG:
+          type: string
+          maxLength: 2
+          example: 'SP'
+          description: Estado da Emissão do RG
+          required: true
+        rgOrgaoEmissor:
+          type: string
+          maxLength: 3
+          example: 'SSP'
+          description: Orgão Expedidor do RG
+          required: true
+        cpf:
+          type: string
+          maxLength: 11
+          example: '32939428816'
+          description: CPF / CIC do colaborador
+          required: true
+        pis:
+          type: string
+          maxLength: 20
+          example: '1323964881502'
+          description: NIT / PIS / PASEP do colaborador para elaboração do PPP
+          required: true
+        nrCtps:
+          type: string
+          maxLength: 30
+          example: '1854'
+          description: Carteira profissional do colaborador
+          required: true
+        serieCtps:
+          type: string
+          maxLength: 12
+          example: '111'
+          description: Série da CTPS do colaborador
+          required: true
+        ufCtps:
+          type: string
+          maxLength: 2
+          example: 'SP'
+          description: Estado de emissão da CTPS do colaborador
+        situacao:
+          type: string
+          required: true
+          enum:
+            - S
+            - N
+            - A
+            - F
+          description: >
+            Situação atual do colaborador:
+              * `S` - Ativo
+              * `N` - Inativo
+              * `N` - Afastado
+              * `F` - Férias
+        codigoRhSetor:
+          type: string
+          maxLength: 40
+          example: 1000000
+          description: Código do setor do colaborador
+          required: true
+        nomeSetor:
+          type: string
+          maxLength: 120
+          example: ADMINISTRACAO
+          description: Nome do setor do colaborador
+          required: true
+        codigoRhCargo:
+          type: string
+          maxLength: 40
+          example: 000500
+          description: Código do cargo do colaborador no sistema de folha
+          required: true
+        nomeCargo:
+          type: string
+          maxLength: 120
+          example: ANALISTA DE PROCESSOS
+          description: Nome do cargo do colaborador
+          required: true
+        descricaoDetalhadaCargo:
+          type: string
+          maxLength: 2770
+          example: 'Inspecionam o recebimento e organizam o armazenamento e movimentação de insumos; verificam conformidade de processos; liberam produtos e serviços;'
+          description: Descrição do Cargo / Atividades do funcionário (CBO)
+          required: true
+        tipoContratacao:
+          type: string
+          required: true
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+            - 10
+            - 11
+            - 12
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+          description: >
+            Tipo de contratação do colaborador:
+              * `1` - CLT
+              * `2` - Cooperado
+              * `3` - Terceirizado
+              * `4` - Autônomo
+              * `5` - Pessoa Jurídica
+              * `6` - Outros
+              * `7` - Estagiário
+              * `8` - Menor Aprendiz
+              * `9` - Estatutário
+              * `10` - Comissionado Interno
+              * `11` - Comissionado Externo
+              * `12` - Aposentado
+              * `13` - Aposentado/Inativo Prefeitura
+              * `14` - Pensionista
+              * `15` - Servidor Público Efetivo
+              * `16` - Extranumerário
+              * `17` - Autárquico
+              * `18` - Inativo
+              * `19` - Título Precário
+              * `20` - Servidor Adm Centralizada ou Descentralizada
+        regimeRevezamento:
+          type: string
+          maxLength: 45
+          example: 24 x 72 horas; 14 x 21 dias; 2 x 1 meses.
+          description: Para trabalhos em turnos ou escala, especificando tempo trabalhado e tempo de descanso
+        dtAdmissao:
+          type: string
+          format: date
+          description: Data de admissão do colaborador
+          required: true
+        dtDemissao:
+          type: string
+          format: date
+          description: Data de demissão do colaborador, caso tenha sido desligad
+        ultimaMovimentacao:
+          type: string
+          format: date
+          description: Data da última movimentação (obrigatório para PPP)
+        cbo:
+          type: string
+          maxLength: 10
+          example: 9999.99
+          description: CBO do cargo do colaborador
+          required: true
+        gfip:
+          type: string
+          required: true
+          maxLength: 1
+          example: 1
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+          description: >
+            GFIP da Empresa:
+              * 0 à 8, consultar CAGED da Empresa
+        codigoRhUnidade:
+          type: string
+          maxLength: 40
+          example: 000100
+          description: Código do unidade do colaborador no sistema de folha
+          required: true
+        nomeUnidade:
+          type: string
+          maxLength: 120
+          example: PORTO SEGURO - MATRIZ SP
+          description: Nome do unidade do colaborador
+          required: true
+        razaoSocialUnidade:
+          type: string
+          maxLength: 130
+          example: PORTO SEGURO SERVIÇOS MEDICOS LTDA.
+          description: Razão social da unidade conforme Cartão de CNPJ
+          required: true
+        cnpjUnidade:
+          type: string
+          maxLength: 20
+          example: 11.111.111/0001-11
+          description: CNPJ Unidade
+          required: true
+        cnae7:
+          type: string
+          maxLength: 9
+          example: 99.99-9/00
+          description: Cnae completo da unidade
+          required: true
+        grauRisco:
+          type: string
+          required: true
+          maxLength: 1
+          example: 1
+          description: Grau de Risco da Empresa (de 1 à 4)
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+        enderecoUnidade:
+          type: string
+          maxLength: 110
+          example: R. GUAIANAZES
+          description: Endereço da unidade do colaborador
+          required: true
+        numeroEnderecoUnidade:
+          type: string
+          maxLength: 10
+          example: 1238
+          description: Número de endereço unidade do colaborador
+          required: true
+        complementoEnderecoUnidade:
+          type: string
+          maxLength: 30
+          example: 6º Andar - Lado A
+          description: Complementos do endereço da unidade do colaborador
+          required: true
+        cepUnidade:
+          type: string
+          maxLength: 9
+          example: 01204-001
+          description: CEP da unidade do colaborador
+          required: true
+        bairroUnidade:
+          type: string
+          maxLength: 80
+          example: CAMPOS ELISEOS
+          description: Bairro da unidade do Funcionário
+          required: true
+        cidadeUnidade:
+          type: string
+          maxLength: 50
+          example: SAO PAULO
+          description: Cidade da unidade do colaborador
+          required: true
+        estadoUnidade:
+          type: string
+          maxLength: 2
+          example: SP
+          description: Estado da unidade do colaborador
+          required: true
+        categoriaEsocial:
+          type: number
+          example: 101
+          enum:
+            - 101
+            - 102
+            - 103
+            - 104
+            - 105
+            - 106
+            - 107
+            - 108
+            - 111
+            - 201
+            - 202
+            - 301
+            - 302
+            - 303
+            - 305
+            - 306
+            - 307
+            - 308
+            - 309
+            - 401
+            - 410
+            - 701
+            - 711
+            - 712
+            - 721
+            - 722
+            - 723
+            - 731
+            - 734
+            - 738
+            - 741
+            - 751
+            - 761
+            - 771
+            - 781
+            - 901
+            - 902
+            - 903
+            - 904
+            - 905
+          description: >
+            Categoria eSocial:
+              * `101` - Empregado - Geral, inclusive o empregado público da administração direta ou indireta contratado pela CLT.
+              * `102` - Empregado - Trabalhador Rural por Pequeno Prazo da Lei 11.718/2008
+              * `103` - Empregado - Aprendiz
+              * `104` - Empregado - Doméstico
+              * `105` - Empregado - contrato a termo firmado nos termos da Lei 9601/98
+              * `106` - Trabalhador Temporário - contrato nos termos da Lei 6.019/74
+              * `107` - Empregado - Contrato de trabalho Verde e Amarelo - sem acordo para antecipação mensal da multa rescisória do FGTS
+              * `108` - Empregado - Contrato de trabalho Verde e Amarelo - com acordo para antecipação mensal da multa rescisória do FGTS
+              * `111` - Empregado - contrato de trabalho intermitente
+              * `201` - Trabalhador Avulso Portuário
+              * `202` - Trabalhador Avulso Não Portuário
+              * `301` - Servidor Público Titular de Cargo Efetivo, Magistrado, Ministro de Tribunal de Contas, Conselheiro de Tribunal de Contas e Membro do Ministério Público
+              * `302` - Servidor Público Ocupante de Cargo exclusivo em comissão
+              * `303` - Agente Político
+              * `305` - Servidor Público indicado para conselho ou órgão deliberativo, na condição de representante do governo, órgão ou entidade da administração pública.
+              * `306` - Servidor Público Temporário, sujeito a regime administrativo especial definido em lei própria
+              * `307` - Militar efetivo
+              * `308` - Conscrito
+              * `309` - Agente Público - Outros
+              * `401` - Dirigente Sindical - informação prestada pelo Sindicato
+              * `410` - Trabalhador cedido - informação prestada pelo Cessionário
+              * `701` - Contribuinte individual - Autônomo em geral, exceto se enquadrado em uma das demais categorias de contribuinte individual
+              * `711` - Contribuinte individual - Transportador autônomo de passageiros
+              * `712` - Contribuinte individual - Transportador autônomo de carga
+              * `721` - Contribuinte individual - Diretor não empregado, com FGTS
+              * `722` - Contribuinte individual - Diretor não empregado, sem FGTS
+              * `723` - Contribuinte individual - empresários, sócios e membro de conselho de administração ou fiscal
+              * `731` - Contribuinte individual - Cooperado que presta serviços por intermédio de Cooperativa de Trabalho
+              * `734` - Contribuinte individual - Transportador Cooperado que presta serviços por intermédio de cooperativa de trabalho
+              * `738` - Contribuinte individual - Cooperado filiado a Cooperativa de Produção
+              * `741` - Contribuinte individual - Microempreendedor Individual
+              * `751` - Contribuinte individual - magistrado classista temporário da Justiça do Trabalho ou da Justiça Eleitoral que seja aposentado de qualquer regime previdenciário
+              * `761` - Contribuinte individual - Associado eleito para direção de Cooperativa, associação ou entidade de classe de qualquer natureza ou finalidade, bem como o síndico ou administrador eleito para exercer atividade de direção condominial, desde que recebam remuneração
+              * `771` - Contribuinte individual - Membro de conselho tutelar, nos termos da Lei nº 	8.069, de 13 de julho de 1990
+              * `781` - Ministro de confissão religiosa ou membro de vida consagrada, de congregação ou de ordem religiosa
+              * `901` - Estagiário
+              * `902` - Médico Residente
+              * `903` - Bolsista, nos termos da lei 8958/1994
+              * `904` - Participante de curso de formação, como etapa de concurso público, sem vínculo de emprego/estatutário
+              * `905` - Atleta não profissional em formação que receba bolsa * `` -
+    ErroRequisicao:
+      type: object
+      properties:
+        error:
+          type: string
+          example: invalid_grant
+        error_description:
+          type: string
+          example: The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.
+        hint:
+          type: string
+          example: ''
+        message:
+          type: string
+          example: The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.
+    ErroGenerico:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          format: int32
+        mensagem:
+          type: string
+    BodyAuth:
+      type: object
+      xml:
+        name: Colaborador
+        wrapped: true
+      properties:
+        username:
+          type: string
+          description: Usuário
+          example: usuario@example.com.br
+          required: true
+        password:
+          type: string
+          description: Senha
+          example: minha senha
+          required: true
+        tenant_id:
+          type: string
+          description: Tenant referente ambiente utilizado
+          example: y6ifrt5433dscfg5554ds
+          required: true
+    ResponseToken:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          format: int32
+          example: 3600
+        access_token:
+          type: string
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiM2I3MTc2NDljYTgwYmNhMzRjZTVjODljNDZhNmUyNDcwOTU1YzIyYTYzODM3Mzc3MjA
+        refresh_token:
+          type: string
+          example: def50200ee61fd0b8cd6d94a69744459e902c59ecc60f9d2229917b6f9f3bcf66b2ddbfdb0eb7b6af273d142d782caf4d1428d6cbbe17c351d406cf5e2a44b84
+    RespostaSoc:
+      type: object
+      properties:
+        codigo:
+          type: integer
+          format: int32
+        mensagem:
+          type: string
+        dados:
+          type: object
+          properties:
+            atualizouCargo:
+              type: boolean
+            atualizouCentroCusto:
+              type: boolean
+            atualizouFuncionario:
+              type: boolean
+            atualizouRegistro:
+              type: boolean
+            atualizouSetor:
+              type: boolean
+            atualizouUnidade:
+              type: boolean
+            codigoEmpresa:
+              type: string
+            codigoFuncionario:
+              type: string
+            descricaoErro:
+              type: string
+            encontrouCargo:
+              type: boolean
+            encontrouCentroCusto:
+              type: boolean
+            encontrouErro:
+              type: boolean
+            encontrouFuncionario:
+              type: boolean
+            encontrouRegistro:
+              type: boolean
+            encontrouSetor:
+              type: boolean
+            encontrouUnidade:
+              type: boolean
+            incluiuCargo:
+              type: boolean
+            incluiuCentroCusto:
+              type: boolean
+            incluiuFuncionario:
+              type: boolean
+            incluiuRegistro:
+              type: boolean
+            incluiuSetor:
+              type: boolean
+            incluiuUnidade:
+              type: boolean
+            observacao:
+              type: string
+            atualizouMotivoLicenca:
+              type: boolean
+            atualizouTurno:
+              type: boolean
+            encontrouUnidadeContratante:
+              type: boolean
+            encontrouMotivoLicenca:
+              type: boolean
+            encontrouTurno:
+              type: boolean
+            incluiuUnidadeContratante:
+              type: boolean
+            incluiuMotivoLicenca:
+              type: boolean
+            incluiuTurno:
+              type: boolean
+  securitySchemes:
+    oauth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '/oauth/authorize'
+          scopes: { }
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: [ ]
