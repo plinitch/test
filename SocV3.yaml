@@ -682,7 +682,7 @@ components:
         incluiuCentroCusto:
           oneOf:
           - type: "boolean"
-         - maximum: 1
+          - maximum: 1
             minimum: 0
             type: "integer"
         transferiuFuncionario:
