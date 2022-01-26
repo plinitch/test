@@ -1662,7 +1662,7 @@ components:
       required:
       - "homologacao"
       type: "object"
-     properties:
+      properties:
         homologacao:
           oneOf:
           - type: "boolean"
