@@ -1,0 +1,1995 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2021-09-17T20:46:06Z",
+    "title": "portoseguro-soc-api-dev",
+    "description": "API SOC - Porto seguro",
+    "contact": {}
+  },
+  "host": "api.portoseguro.tunnelhub.io",
+  "basePath": "//soc-dev",
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "x-api-key",
+      "in": "header"
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/empresas/{codigoEmpresa}/buscaFuncionarioPorCpf/{cpf}": {
+      "get": {
+        "description": "",
+        "summary": "V1EmpresasBuscaFuncionarioPorCpf_GET",
+        "tags": [
+          "Funcionários"
+        ],
+        "operationId": "V1EmpresasBuscaFuncionarioPorCpf_GET",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codigoEmpresa",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Código empresa SOC"
+          },
+          {
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "CPF do colaborador"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "headers": {}
+          },
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/DetalhesFuncionarios"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/v1/funcionarios/lote": {
+      "post": {
+        "description": "",
+        "summary": "V1FuncionariosLote_POST",
+        "tags": [
+          "Funcionários"
+        ],
+        "operationId": "V1FuncionariosLote_POST",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json\""
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json\""
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/BatchUpdateEmployeeRequestModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "headers": {}
+          },
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/Respostadeatualiza%C3%A7%C3%A3odefuncion%C3%A1riosSOC"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/v1/empresas/{codigoEmpresa}/funcionarios": {
+      "get": {
+        "description": "",
+        "summary": "V1EmpresasFuncionariosByCodigoEmpresa_GET",
+        "tags": [
+          "Funcionários"
+        ],
+        "operationId": "V1EmpresasFuncionariosByCodigoEmpresa_GET",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "codigoEmpresa",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Código empresa SOC"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "headers": {}
+          },
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/DetalhesFuncionarios"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/v1/funcionarios": {
+      "post": {
+        "description": "",
+        "summary": "V1Funcionarios_POST",
+        "tags": [
+          "Funcionários"
+        ],
+        "operationId": "V1Funcionarios_POST",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateEmployeeRequestModel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "headers": {}
+          },
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Respostadeatualiza%C3%A7%C3%A3odefuncion%C3%A1riosSOC"
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ImportacaoFuncionarioFuncionarioTransferencia": {
+      "title": "ImportacaoFuncionarioFuncionarioTransferencia",
+      "type": "object",
+      "properties": {
+        "copiaHistoricoLaboral": {},
+        "copiaSocGed": {},
+        "copiaFichaClinica": {},
+        "valorizarExamesNaoCobradoNoDestino": {},
+        "dataTransferencia": {
+          "type": "string"
+        },
+        "tipoFichaCopia": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioTransferenciaTipoFichaCopia"
+        }
+      },
+      "required": [
+        "copiaHistoricoLaboral",
+        "copiaSocGed",
+        "copiaFichaClinica",
+        "valorizarExamesNaoCobradoNoDestino"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoFuncaoBrigadaIncendio": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoFuncaoBrigadaIncendio",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "COORDENADOR_GERAL",
+        "LIDER",
+        "CHEFE_DE_BRIGADA",
+        "BRIGADISTA"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCategoria": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCategoria",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_EMPRESAS_GERAL",
+        "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_CONTRIB_INDIVIDUAL_PESSOA_FISICA_OU_MISSAO_DIPLOMATICA_E_REPARTICAO_CONSULAR_ESTRANGEIRAS",
+        "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_ENTIDADE_BENEFICENTE_ISENTA_COTA_PATRONAL",
+        "EXCLUIDO",
+        "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_EMPRESAS_GERAL",
+        "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_CONTRIB_INDIVIDUAL_PESSOA_FISICA_OU_MISSAO_DIPLOMATICA_E_REPARTICAO_CONSULAR_ESTRANGEIRAS",
+        "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_ENTIDADE_BENEFICENTE_ISENTA_COTA_PATRONAL"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioMotivoLicencaWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioMotivoLicencaWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "CODIGO_INTEGRACAO",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVo",
+      "type": "object",
+      "properties": {
+        "reabilitado": {},
+        "observacao": {
+          "type": "string"
+        },
+        "origemDeficiencia": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoOrigemDeficiencia"
+        },
+        "gravarHistorico": {},
+        "tipoBuscaLegislacaoReferencia": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia"
+        },
+        "dataEmissaoLaudo": {
+          "type": "string"
+        },
+        "codigoMedico": {
+          "type": "string"
+        },
+        "deficiencia": {
+          "type": "string"
+        },
+        "classificacaoDeficiencia": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem"
+          }
+        },
+        "nomeLegislacaoReferencia": {
+          "type": "string"
+        },
+        "codigoLegislacaoReferencia": {
+          "type": "string"
+        },
+        "deficiente": {},
+        "cids": {},
+        "parecerLaudo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoParecerLaudo"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem",
+      "type": "object",
+      "properties": {
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "classificacao": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao"
+        },
+        "nome": {
+          "type": "string"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioTurnoWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioTurnoWsVo",
+      "type": "object",
+      "properties": {
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioTurnoWsVoTipoBusca"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "cargaHorariaSemanal": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "codigoRh": {
+          "type": "string"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVoParecerLaudo": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVoParecerLaudo",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "APTO_PARA_FUNCAO",
+        "INAPTO_PARA_FUNCAO"
+      ]
+    },
+    "DetalhesFuncionarios": {
+      "title": "DetalhesFuncionarios",
+      "description": "Retorno de busca de funcionários - SOC",
+      "type": "object",
+      "properties": {
+        "NOMECARGO": {
+          "type": "string"
+        },
+        "NOMECENTROCUSTO": {
+          "type": "string"
+        },
+        "TURNOTRABALHO": {
+          "type": "string"
+        },
+        "TELCOMERCIAL": {
+          "type": "string"
+        },
+        "TIPOCONTATACAO": {
+          "type": "string"
+        },
+        "RAMAL": {
+          "type": "string"
+        },
+        "EMAIL": {
+          "type": "string"
+        },
+        "SERIECTPS": {
+          "type": "string"
+        },
+        "DATA_DEMISSAO": {
+          "type": "string"
+        },
+        "UF": {
+          "type": "string"
+        },
+        "TELEFONERESIDENCIAL": {
+          "type": "string"
+        },
+        "DEFICIENCIA": {
+          "type": "string"
+        },
+        "REGIMETRABALHO": {
+          "type": "string"
+        },
+        "NOMEUNIDADE": {
+          "type": "string"
+        },
+        "ENDERECO": {
+          "type": "string"
+        },
+        "CODIGOUNIDADE": {
+          "type": "string"
+        },
+        "UFRG": {
+          "type": "string"
+        },
+        "TELEFONECELULAR": {
+          "type": "string"
+        },
+        "REGIMEREVEZAMENTO": {
+          "type": "string"
+        },
+        "NOMESETOR": {
+          "type": "string"
+        },
+        "CBOCARGO": {
+          "type": "string"
+        },
+        "CTPS": {
+          "type": "string"
+        },
+        "NOMEEMPRESA": {
+          "type": "string"
+        },
+        "CEP": {
+          "type": "string"
+        },
+        "BAIRRO": {
+          "type": "string"
+        },
+        "RG": {
+          "type": "string"
+        },
+        "NOME": {
+          "type": "string"
+        },
+        "DATA_NASCIMENTO": {
+          "type": "string"
+        },
+        "CODIGOCARGO": {
+          "type": "string"
+        },
+        "MATRICULARH": {
+          "type": "string"
+        },
+        "RHCARGO": {
+          "type": "string"
+        },
+        "RHCENTROCUSTOUNIDADE": {
+          "type": "string"
+        },
+        "CODIGO": {
+          "type": "string"
+        },
+        "CCUSTO": {
+          "type": "string"
+        },
+        "CIDADE": {
+          "type": "string"
+        },
+        "NUMERO_ENDERECO": {
+          "type": "string"
+        },
+        "DATA_ADMISSAO": {
+          "type": "string"
+        },
+        "RHSETOR": {
+          "type": "string"
+        },
+        "DEFICIENTE": {
+          "type": "string"
+        },
+        "NM_MAE_FUNCIONARIO": {
+          "type": "string"
+        },
+        "COR": {
+          "type": "string"
+        },
+        "MATRICULAFUNCIONARIO": {
+          "type": "string"
+        },
+        "RHUNIDADE": {
+          "type": "string"
+        },
+        "SITUACAO": {
+          "type": "string"
+        },
+        "DATAULTALTERACAO": {
+          "type": "string"
+        },
+        "CODIGOSETOR": {
+          "type": "string"
+        },
+        "SEXO": {
+          "type": "string"
+        },
+        "ESTADOCIVIL": {
+          "type": "string"
+        },
+        "NATURALIDADE": {
+          "type": "string"
+        },
+        "ORGAOEMISSORRG": {
+          "type": "string"
+        },
+        "CODIGOEMPRESA": {
+          "type": "string"
+        },
+        "CPF": {
+          "type": "string"
+        },
+        "ESCOLARIDADE": {
+          "type": "string"
+        },
+        "PIS": {
+          "type": "string"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoEscolaridade": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoEscolaridade",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "ENSINO_FUNDAMENTAL_INCOMPLETO",
+        "ENSINO_FUNDAMENTAL_COMPLETO",
+        "ENSINO_MEDIO_INCOMPLETO",
+        "ENSINO_MEDIO_COMPLETO",
+        "ENSINO_SUPERIOR_INCOMPLETO",
+        "ENSINO_SUPERIOR_COMPLETO",
+        "PROFISSIONALIZANTE",
+        "TECNICO_INCOMPLETO",
+        "TECNICO_COMPLETO",
+        "TECNOLOGO_INCOMPLETO",
+        "TECNOLOGO_COMPLETO",
+        "POS_GRADUACAO_INCOMPLETA",
+        "POS_GRADUACAO_COMPLETA",
+        "MESTRADO_INCOMPLETO",
+        "MESTRADO_COMPLETO",
+        "DOUTORADO_INCOMPLETO",
+        "DOUTORADO_COMPLETO",
+        "PHD_INCOMPLETO",
+        "PHD_COMPLETO",
+        "NAO_INFORMADO",
+        "ANALFABETO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoSanguineo": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoSanguineo",
+      "example": "NENHUM",
+      "type": "string",
+      "enum": [
+        "NENHUM",
+        "O_POSITIVO",
+        "A_POSITIVO",
+        "AB_POSITIVO",
+        "B_POSITIVO",
+        "O_NEGATIVO",
+        "A_NEGATIVO",
+        "AB_NEGATIVO",
+        "B_NEGATIVO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCentroCustoWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioCentroCustoWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "CODIGO_RH",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoContratacao": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoContratacao",
+      "example": "CLT",
+      "type": "string",
+      "enum": [
+        "CLT",
+        "COOPERADO",
+        "TERCERIZADO",
+        "AUTONOMO",
+        "TEMPORARIO",
+        "PESSOA_JURIDICA",
+        "ESTAGIARIO",
+        "MENOR_APRENDIZ",
+        "ESTATUTARIO",
+        "COMISSIONADO_INTERNO",
+        "COMISSIONADO_EXTERNO",
+        "APOSENTADO",
+        "APOSENTADO_INATIVO_PREFEITURA",
+        "PENSIONISTA",
+        "SERVIDOR_PUBLICO_EFETIVO",
+        "EXTRANUMERARIO",
+        "AUTARQUICO",
+        "INATIVO",
+        "TITULO_PRECARIO",
+        "SERVIDOR_ADM_CENTRALIZADA_OU_DESCENTRALIZADA"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCargoWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioCargoWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "CODIGO_RH",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoAdmissao": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoAdmissao",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "ADMISSAO",
+        "TRANSFERENCIA_EMPRESA_MESMO_GRUPO",
+        "TRANSFERENCIA_EMPRESA_CONSORCIADA",
+        "TRANSFERENCIA_MOTIVO_SUCESSAO"
+      ]
+    },
+    "BatchUpdateEmployeeRequestModel": {
+      "title": "BatchUpdateEmployeeRequestModel",
+      "description": "Dados de funcionários em lote",
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Atualiza%C3%A7%C3%A3odefuncion%C3%A1riosSOC"
+          }
+        },
+        "wsSecurityAuthentication": {
+          "$ref": "#/definitions/WsSecurityAuthentication"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo",
+      "type": "object",
+      "properties": {
+        "cidade": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "unidadeContratante": {},
+        "numero": {
+          "type": "string"
+        },
+        "observacaoASO": {
+          "type": "string"
+        },
+        "cnpj_cei": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoCnpj_cei"
+        },
+        "grauRisco": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "cep": {
+          "type": "string"
+        },
+        "percentualCalculoBrigada": {
+          "type": "string"
+        },
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoBusca"
+        },
+        "complemento": {
+          "type": "string"
+        },
+        "complementoCobranca": {
+          "type": "string"
+        },
+        "codigoCpf": {
+          "type": "string"
+        },
+        "codigoMunicipioCobranca": {
+          "type": "string"
+        },
+        "estadoCobranca": {
+          "type": "string"
+        },
+        "numeroCobranca": {
+          "type": "string"
+        },
+        "caracterizacaoProcessosAmbientesTrabalho": {
+          "type": "string"
+        },
+        "bairroCobranca": {
+          "type": "string"
+        },
+        "codigoCno": {
+          "type": "string"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "endereco": {
+          "type": "string"
+        },
+        "bairro": {
+          "type": "string"
+        },
+        "inscricaoMunicipal": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "codigoArquivo": {
+          "type": "string"
+        },
+        "codigoRh": {
+          "type": "string"
+        },
+        "dataAssinaturaContrato": {
+          "type": "string"
+        },
+        "codigoCnpjCei": {
+          "type": "string"
+        },
+        "observacaoContrato": {
+          "type": "string"
+        },
+        "codigoCaepf": {
+          "type": "string"
+        },
+        "tipoCnae": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoCnae"
+        },
+        "enderecoCobranca": {
+          "type": "string"
+        },
+        "observacaoPPP": {
+          "type": "string"
+        },
+        "inscricaoEstadual": {
+          "type": "string"
+        },
+        "cepCobranca": {
+          "type": "string"
+        },
+        "cidadeCobranca": {
+          "type": "string"
+        },
+        "codigoMunicipio": {
+          "type": "string"
+        },
+        "razaoSocial": {
+          "type": "string"
+        },
+        "codigoCnae": {
+          "type": "string"
+        },
+        "telefoneCat": {
+          "type": "string"
+        },
+        "descricaoCnae": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "CODIGO_RH",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoCnae": {
+      "title": "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoCnae",
+      "example": "CNAE",
+      "type": "string",
+      "enum": [
+        "CNAE",
+        "CNAE_2",
+        "CNAE_7",
+        "CNAE_LIVRE"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoRegimeTrabalho": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoRegimeTrabalho",
+      "example": "NORMAL",
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "TURNO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioMotivoLicencaWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioMotivoLicencaWsVo",
+      "type": "object",
+      "properties": {
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioMotivoLicencaWsVoTipoBusca"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "codigoDeIntegracao": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        }
+      }
+    },
+    "EmployeeUpdateResponseFuncionarioRetorno": {
+      "title": "EmployeeUpdateResponseFuncionarioRetorno",
+      "type": "object",
+      "properties": {
+        "incluiuUnidade": {},
+        "observacao": {
+          "type": "string"
+        },
+        "incluiuTurno": {},
+        "encontrouCargo": {},
+        "codigoFuncionario": {
+          "type": "string"
+        },
+        "incluiuFuncionario": {},
+        "atualizouRegistro": {},
+        "atualizouCargo": {},
+        "encontrouUnidadeContratante": {},
+        "atualizouUnidade": {},
+        "encontrouSetor": {},
+        "incluiuSetor": {},
+        "encontrouMotivoLicenca": {},
+        "encontrouFuncionario": {},
+        "encontrouUnidade": {},
+        "atualizouSetor": {},
+        "atualizouMotivoLicenca": {},
+        "descricaoErro": {
+          "type": "string"
+        },
+        "encontrouRegistro": {},
+        "encontrouCentroCusto": {},
+        "atualizouTurno": {},
+        "atualizouFuncionario": {},
+        "encontrouErro": {},
+        "encontrouTurno": {},
+        "incluiuCargo": {},
+        "incluiuRegistro": {},
+        "codigoEmpresa": {
+          "type": "string"
+        },
+        "atualizouCentroCusto": {},
+        "incluiuUnidadeContratante": {},
+        "incluiuCentroCusto": {},
+        "transferiuFuncionario": {},
+        "incluiuMotivoLicenca": {}
+      },
+      "required": [
+        "incluiuUnidade",
+        "incluiuTurno",
+        "encontrouCargo",
+        "incluiuFuncionario",
+        "atualizouRegistro",
+        "atualizouCargo",
+        "encontrouUnidadeContratante",
+        "atualizouUnidade",
+        "encontrouSetor",
+        "incluiuSetor",
+        "encontrouMotivoLicenca",
+        "encontrouFuncionario",
+        "encontrouUnidade",
+        "atualizouSetor",
+        "atualizouMotivoLicenca",
+        "encontrouRegistro",
+        "encontrouCentroCusto",
+        "atualizouTurno",
+        "atualizouFuncionario",
+        "encontrouErro",
+        "encontrouTurno",
+        "incluiuCargo",
+        "incluiuRegistro",
+        "atualizouCentroCusto",
+        "incluiuUnidadeContratante",
+        "incluiuCentroCusto",
+        "transferiuFuncionario",
+        "incluiuMotivoLicenca"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoChaveProcuraFuncionario": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoChaveProcuraFuncionario",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "MATRICULA",
+        "MATRICULA_RH",
+        "CPF",
+        "DATA_NASCIMENTO",
+        "CPF_PENDENTE",
+        "CPF_ATIVO",
+        "CPF_DATA_ADMISSAO",
+        "CPF_DATA_ADMISSAO_PERIODO",
+        "CODIGO_RH"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCor": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCor",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "BRANCO",
+        "NEGRO",
+        "AMARELO",
+        "PARDO",
+        "INDIGENA",
+        "MULATO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCorDosOlhos": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCorDosOlhos",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "AZUL",
+        "AZUL_ESVERDEADO",
+        "CASTANHO",
+        "CINZA",
+        "VERDE",
+        "AVELA",
+        "AMBAR",
+        "VERMELHO",
+        "VIOLETA"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVo",
+      "type": "object",
+      "properties": {
+        "campoString01": {
+          "type": "string"
+        },
+        "campoInteiro01": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString02": {
+          "type": "string"
+        },
+        "ufCtps": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
+        },
+        "campoString03": {
+          "type": "string"
+        },
+        "campoString04": {
+          "type": "string"
+        },
+        "nrCtps": {
+          "type": "string"
+        },
+        "campoInteiro04": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString05": {
+          "type": "string"
+        },
+        "campoInteiro05": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString06": {
+          "type": "string"
+        },
+        "campoInteiro02": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString07": {
+          "type": "string"
+        },
+        "campoInteiro03": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString08": {
+          "type": "string"
+        },
+        "campoInteiro08": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoString09": {
+          "type": "string"
+        },
+        "campoInteiro09": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoInteiro06": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "campoInteiro07": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "naoPossuiCtps": {},
+        "chaveProcuraFuncionario": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoChaveProcuraFuncionario"
+        },
+        "remuneracaoMensal": {
+          "type": "number",
+          "format": "double"
+        },
+        "dataFimPeriodoAquisitivo": {
+          "type": "string"
+        },
+        "contatoEmergencia": {
+          "type": "string"
+        },
+        "dataNascimento": {
+          "type": "string"
+        },
+        "campoString10": {
+          "type": "string"
+        },
+        "campoString11": {
+          "type": "string"
+        },
+        "observacaoFuncionario": {
+          "type": "string"
+        },
+        "campoString12": {
+          "type": "string"
+        },
+        "campoString13": {
+          "type": "string"
+        },
+        "campoString14": {
+          "type": "string"
+        },
+        "campoString15": {
+          "type": "string"
+        },
+        "campoString16": {
+          "type": "string"
+        },
+        "campoString17": {
+          "type": "string"
+        },
+        "bairro": {
+          "type": "string"
+        },
+        "campoString18": {
+          "type": "string"
+        },
+        "campoString19": {
+          "type": "string"
+        },
+        "dataEmissaoCtps": {
+          "type": "string"
+        },
+        "serieCtps": {
+          "type": "string"
+        },
+        "matriculaRh": {
+          "type": "string"
+        },
+        "tipoVinculo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoVinculo"
+        },
+        "codigoRh": {
+          "type": "string"
+        },
+        "dataInicioPeriodoAquisitivo": {
+          "type": "string"
+        },
+        "rg": {
+          "type": "string"
+        },
+        "matricula": {
+          "type": "string"
+        },
+        "nomePai": {
+          "type": "string"
+        },
+        "nomeSocial": {
+          "type": "string"
+        },
+        "campoString20": {
+          "type": "string"
+        },
+        "campoString21": {
+          "type": "string"
+        },
+        "campoString22": {
+          "type": "string"
+        },
+        "campoString23": {
+          "type": "string"
+        },
+        "funcao": {
+          "type": "string"
+        },
+        "campoString24": {
+          "type": "string"
+        },
+        "campoString25": {
+          "type": "string"
+        },
+        "campoString26": {
+          "type": "string"
+        },
+        "telefoneEmergencia": {
+          "type": "string"
+        },
+        "campoString27": {
+          "type": "string"
+        },
+        "telefoneComercial": {
+          "type": "string"
+        },
+        "campoString28": {
+          "type": "string"
+        },
+        "parentescoContatoEmergencia": {
+          "type": "string"
+        },
+        "campoString29": {
+          "type": "string"
+        },
+        "atividadesPerigosasWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo"
+        },
+        "razaoSocialEmpresaFuncionario": {
+          "type": "string"
+        },
+        "autorizadoMensagemSms": {},
+        "dataFinalEstabilidade": {
+          "type": "string"
+        },
+        "telefoneCelular": {
+          "type": "string"
+        },
+        "naoPossuiPis": {},
+        "cep": {
+          "type": "string"
+        },
+        "naoPossuiCpf": {},
+        "dataDemissao": {
+          "type": "string"
+        },
+        "naturalidade": {
+          "type": "string"
+        },
+        "tipoAdmissao": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoAdmissao"
+        },
+        "tipoContratacao": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoContratacao"
+        },
+        "emailPessoal": {
+          "type": "string"
+        },
+        "cnpjEmpresaFuncionario": {
+          "type": "string"
+        },
+        "escolaridade": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoEscolaridade"
+        },
+        "campoString30": {
+          "type": "string"
+        },
+        "dataAfastamento": {
+          "type": "string"
+        },
+        "regimeTrabalho": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoRegimeTrabalho"
+        },
+        "email": {
+          "type": "string"
+        },
+        "cipaDataFimMandato": {
+          "type": "string"
+        },
+        "dataDemissionalCarta": {
+          "type": "string"
+        },
+        "codigoPaisNascimento": {
+          "type": "string"
+        },
+        "categoria": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCategoria"
+        },
+        "tipoBuscaEmpresa": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoBuscaEmpresa"
+        },
+        "cns": {
+          "type": "string"
+        },
+        "codigoEmpresa": {
+          "type": "string"
+        },
+        "nomeCooperativa": {
+          "type": "string"
+        },
+        "numeroEndereco": {
+          "type": "string"
+        },
+        "gfip": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "observacaoPpp": {
+          "type": "string"
+        },
+        "codigoMunicipio": {
+          "type": "string"
+        },
+        "tipoSanguineo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoSanguineo"
+        },
+        "descricaoAtividade": {
+          "type": "string"
+        },
+        "naoPossuiMatricula": {},
+        "estado": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
+        },
+        "situacao": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoSituacao"
+        },
+        "cipaDataInicioMandato": {
+          "type": "string"
+        },
+        "observacaoAso": {
+          "type": "string"
+        },
+        "cor": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCor"
+        },
+        "complementoEndereco": {
+          "type": "string"
+        },
+        "codigoCategoriaESocial": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "dataAdmissao": {
+          "type": "string"
+        },
+        "ramalTelefoneEmergencia": {
+          "type": "string"
+        },
+        "enderecoEmergencia": {
+          "type": "string"
+        },
+        "rgUf": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
+        },
+        "dataUltimaMovimentacao": {
+          "type": "string"
+        },
+        "historicoPPP": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoHistoricoPPP"
+        },
+        "rgDataEmissao": {
+          "type": "string"
+        },
+        "genero": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoGenero"
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "carteiraNacionalSaude": {
+          "type": "string"
+        },
+        "pis": {
+          "type": "string"
+        },
+        "telefoneResidencial": {
+          "type": "string"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "corDosOlhos": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCorDosOlhos"
+        },
+        "grauInstrucao": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoGrauInstrucao"
+        },
+        "rgOrgaoEmissor": {
+          "type": "string"
+        },
+        "funcaoBrigadaIncendio": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoFuncaoBrigadaIncendio"
+        },
+        "utilizarDescricaoRequisitoCargo": {},
+        "ramal": {
+          "type": "string"
+        },
+        "telefoneSms": {
+          "type": "string"
+        },
+        "cidade": {
+          "type": "string"
+        },
+        "desabilitarRisco": {},
+        "requisitosFuncao": {
+          "type": "string"
+        },
+        "observacaoEstabilidade": {
+          "type": "string"
+        },
+        "regimeRevezamento": {
+          "type": "string"
+        },
+        "campoInteiro10": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "endereco": {
+          "type": "string"
+        },
+        "estadoCivil": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoEstadoCivil"
+        },
+        "cipa": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCipa"
+        },
+        "nomeFuncionario": {
+          "type": "string"
+        },
+        "sexo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVoSexo"
+        },
+        "nomeMae": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "campoInteiro01",
+        "campoInteiro04",
+        "campoInteiro05",
+        "campoInteiro02",
+        "campoInteiro03",
+        "campoInteiro08",
+        "campoInteiro09",
+        "campoInteiro06",
+        "campoInteiro07",
+        "campoInteiro10"
+      ]
+    },
+    "RespostadeatualizaçãodefuncionáriosSOC": {
+      "title": "RespostadeatualizaçãodefuncionáriosSOC",
+      "description": "Resposta atualização de funcionários SOC",
+      "type": "object",
+      "properties": {
+        "FuncionarioRetorno": {
+          "$ref": "#/definitions/EmployeeUpdateResponseFuncionarioRetorno"
+        }
+      }
+    },
+    "AtualizaçãodefuncionáriosSOC": {
+      "title": "AtualizaçãodefuncionáriosSOC",
+      "description": "Atualização funcionários modelo 2 - SOC",
+      "type": "object",
+      "properties": {
+        "Funcionario": {
+          "$ref": "#/definitions/Funcionario"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioSetorWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioSetorWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "CODIGO_RH",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps",
+      "example": "AC",
+      "type": "string",
+      "enum": [
+        "AC",
+        "AL",
+        "AM",
+        "AP",
+        "BA",
+        "CE",
+        "DF",
+        "ES",
+        "GO",
+        "MA",
+        "MG",
+        "MS",
+        "MT",
+        "PA",
+        "PB",
+        "PE",
+        "PI",
+        "PR",
+        "RJ",
+        "RN",
+        "RO",
+        "RR",
+        "RS",
+        "SC",
+        "SE",
+        "SP",
+        "TO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo",
+      "type": "object",
+      "properties": {
+        "codigoAtividadePerigosa": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateEmployeeRequestModel": {
+      "title": "UpdateEmployeeRequestModel",
+      "description": "Dados de funcionários",
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/Atualiza%C3%A7%C3%A3odefuncion%C3%A1riosSOC"
+        },
+        "wsSecurityAuthentication": {
+          "$ref": "#/definitions/WsSecurityAuthentication"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoCnpj_cei": {
+      "title": "ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoCnpj_cei",
+      "example": "CNPJ",
+      "type": "string",
+      "enum": [
+        "CNPJ",
+        "CEI",
+        "CPF",
+        "CAEPF",
+        "CNO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoGenero": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoGenero",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "TRAVESTI",
+        "TRANSEXUAL"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoGrauInstrucao": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoGrauInstrucao",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "ANALFABETO",
+        "QUINTO_INCOMPLETO",
+        "QUINTO_COMPLETO",
+        "FUNDAMENTAL_INCOMPLETO",
+        "FUNDAMENTAL_COMPLETO",
+        "MEDIO_INCOMPLETO",
+        "MEDIO_COMPLETO",
+        "SUPERIOR_INCOMPLETO",
+        "SUPERIOR_COMPLETO",
+        "POS_GRADUACAO_COMPLETA",
+        "MESTRADO_COMPLETO",
+        "DOUTORADO_COMPLETO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioTransferenciaTipoFichaCopia": {
+      "title": "ImportacaoFuncionarioFuncionarioTransferenciaTipoFichaCopia",
+      "type": "object",
+      "properties": {
+        "qualidadeVida": {},
+        "licencaMedica": {},
+        "demissional": {},
+        "admissional": {},
+        "retornoConsulta": {},
+        "especial": {},
+        "mudancaFuncao": {},
+        "acidente": {},
+        "consultaAssist": {},
+        "periodico": {},
+        "avaliacaoFisica": {},
+        "enfermagem": {},
+        "retornoTrabalho": {},
+        "checkup": {},
+        "consulta": {},
+        "terceiros": {}
+      },
+      "required": [
+        "qualidadeVida",
+        "licencaMedica",
+        "demissional",
+        "admissional",
+        "retornoConsulta",
+        "especial",
+        "mudancaFuncao",
+        "acidente",
+        "consultaAssist",
+        "periodico",
+        "avaliacaoFisica",
+        "enfermagem",
+        "retornoTrabalho",
+        "checkup",
+        "consulta",
+        "terceiros"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoEstadoCivil": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoEstadoCivil",
+      "example": "SOLTEIRO",
+      "type": "string",
+      "enum": [
+        "SOLTEIRO",
+        "CASADO",
+        "SEPARADO",
+        "DIVORCIADO",
+        "VIUVO",
+        "OUTROS",
+        "DESQUITADO",
+        "UNIAO_ESTAVEL"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCentroCustoWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioCentroCustoWsVo",
+      "type": "object",
+      "properties": {
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCentroCustoWsVoTipoBusca"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "codigoRh": {
+          "type": "string"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoHistoricoPPP": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoHistoricoPPP",
+      "example": "EXIBIR",
+      "type": "string",
+      "enum": [
+        "EXIBIR",
+        "NAO_EXIBIR"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoSexo": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoSexo",
+      "example": "MASCULINO",
+      "type": "string",
+      "enum": [
+        "MASCULINO",
+        "FEMININO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioSetorWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioSetorWsVo",
+      "type": "object",
+      "properties": {
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioSetorWsVoTipoBusca"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "observacaoAso": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "codigoRh": {
+          "type": "string"
+        },
+        "descricao": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
+        }
+      }
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao",
+      "example": "DEFICIENCIA_FISICA",
+      "type": "string",
+      "enum": [
+        "DEFICIENCIA_FISICA",
+        "DEFICIENCIA_AUDITIVA",
+        "DEFICIENCIA_VISUAL",
+        "DEFICIENCIA_MENTAL",
+        "DEFICIENCIA_MULTIPLA",
+        "REABILITACAO",
+        "DEFICIENCIA_INTELECTUAL"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVoOrigemDeficiencia": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVoOrigemDeficiencia",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "ACIDENTE_DE_TRABALHO",
+        "CONGENITA",
+        "ACIDENTE_COMUM",
+        "DOENCA",
+        "ADQUIRIDA_EM_POS_OPERATORIO",
+        "DESCONHECIDA",
+        "OUTRAS"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCipa": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoCipa",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "EFETIVO",
+        "SUPLENTE",
+        "RESPONSAVEL"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCargoWsVoStatus": {
+      "title": "ImportacaoFuncionarioFuncionarioCargoWsVoStatus",
+      "example": "ATIVO",
+      "type": "string",
+      "enum": [
+        "ATIVO",
+        "INATIVO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoSituacao": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoSituacao",
+      "example": "ATIVO",
+      "type": "string",
+      "enum": [
+        "ATIVO",
+        "AFASTADO",
+        "PENDENTE",
+        "FERIAS",
+        "INATIVO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioTurnoWsVoTipoBusca": {
+      "title": "ImportacaoFuncionarioFuncionarioTurnoWsVoTipoBusca",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "NOME",
+        "CODIGO_RH"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioIdentificacaoWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioIdentificacaoWsVo",
+      "type": "object",
+      "properties": {
+        "homologacao": {},
+        "codigoResponsavel": {
+          "type": "string"
+        },
+        "codigoUsuario": {
+          "type": "string"
+        },
+        "chaveAcesso": {
+          "type": "string"
+        },
+        "codigoEmpresaPrincipal": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "homologacao"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoVinculo": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoVinculo",
+      "example": "EM_BRANCO",
+      "type": "string",
+      "enum": [
+        "EM_BRANCO",
+        "EMPREGATICIO",
+        "ASSOCIATIVO"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoBuscaEmpresa": {
+      "title": "ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoBuscaEmpresa",
+      "example": "CODIGO_SOC",
+      "type": "string",
+      "enum": [
+        "CODIGO_SOC",
+        "CODIGO_CLIENTE"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia": {
+      "title": "ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia",
+      "example": "CODIGO",
+      "type": "string",
+      "enum": [
+        "CODIGO",
+        "NOME"
+      ]
+    },
+    "ImportacaoFuncionarioFuncionarioCargoWsVo": {
+      "title": "ImportacaoFuncionarioFuncionarioCargoWsVo",
+      "type": "object",
+      "properties": {
+        "funcao": {
+          "type": "string"
+        },
+        "codigo": {
+          "type": "string"
+        },
+        "atualizaDescricaoRequisitosCargoPeloCbo": {},
+        "atividadesPerigosasWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo"
+        },
+        "nomeLegal": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "codigoRh": {
+          "type": "string"
+        },
+        "materialUtilizado": {
+          "type": "string"
+        },
+        "requisitosFuncao": {
+          "type": "string"
+        },
+        "mobiliarioUtilizado": {
+          "type": "string"
+        },
+        "localTrabalho": {
+          "type": "string"
+        },
+        "treinamento": {
+          "type": "string"
+        },
+        "educacao": {
+          "type": "string"
+        },
+        "tipoBusca": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoTipoBusca"
+        },
+        "cbo": {
+          "type": "string"
+        },
+        "orientacaoAso": {
+          "type": "string"
+        },
+        "descricaoLocal": {
+          "type": "string"
+        },
+        "gfip": {
+          "type": "integer",
+          "minimum": -2147483648.0,
+          "maximum": 2147483647.0,
+          "format": "int32"
+        },
+        "experiencia": {
+          "type": "string"
+        },
+        "descricaoDetalhada": {
+          "type": "string"
+        },
+        "habilidades": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
+        }
+      },
+      "required": [
+        "atualizaDescricaoRequisitosCargoPeloCbo"
+      ]
+    },
+    "Funcionario": {
+      "title": "Funcionario",
+      "type": "object",
+      "properties": {
+        "criarUnidadeContratante": {},
+        "criarMotivoLicenca": {},
+        "criarHistorico": {},
+        "transferirFuncionario": {},
+        "cargoWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCargoWsVo"
+        },
+        "atualizarMotivoLicenca": {},
+        "turnoWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioTurnoWsVo"
+        },
+        "atualizarCargo": {},
+        "atualizarCentroCusto": {},
+        "destravarFuncionarioBloqueado": {},
+        "criarFuncionario": {},
+        "criarTurno": {},
+        "funcionarioWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioFuncionarioWsVo"
+        },
+        "identificacaoWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioIdentificacaoWsVo"
+        },
+        "deficienciaWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioDeficienciaWsVo"
+        },
+        "criarUnidade": {},
+        "atualizarFuncionario": {},
+        "atualizarTurno": {},
+        "setorWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioSetorWsVo"
+        },
+        "centroCustoWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioCentroCustoWsVo"
+        },
+        "transferencia": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioTransferencia"
+        },
+        "motivoLicencaWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioMotivoLicencaWsVo"
+        },
+        "criarCargo": {},
+        "atualizarSetor": {},
+        "naoImportarFuncionarioSemHierarquia": {},
+        "unidadeContratanteWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo"
+        },
+        "unidadeWsVo": {
+          "$ref": "#/definitions/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo"
+        },
+        "atualizarUnidade": {},
+        "criarSetor": {},
+        "criarCentroCusto": {}
+      },
+      "required": [
+        "criarUnidadeContratante",
+        "criarMotivoLicenca",
+        "criarHistorico",
+        "transferirFuncionario",
+        "atualizarMotivoLicenca",
+        "atualizarCargo",
+        "atualizarCentroCusto",
+        "destravarFuncionarioBloqueado",
+        "criarFuncionario",
+        "criarTurno",
+        "criarUnidade",
+        "atualizarFuncionario",
+        "atualizarTurno",
+        "criarCargo",
+        "atualizarSetor",
+        "naoImportarFuncionarioSemHierarquia",
+        "atualizarUnidade",
+        "criarSetor",
+        "criarCentroCusto"
+      ]
+    },
+    "WsSecurityAuthentication": {
+      "title": "WsSecurityAuthentication",
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "security": [],
+  "tags": [
+    {
+      "name": "Funcionários",
+      "description": "Operações com funcionários no sistema SOC"
+    }
+  ]
+}
