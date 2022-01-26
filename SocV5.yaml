@@ -1606,7 +1606,7 @@ components:
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao:
       type: "string"
       enum:
-     - "DEFICIENCIA_FISICA"
+      - "DEFICIENCIA_FISICA"
       - "DEFICIENCIA_AUDITIVA"
       - "DEFICIENCIA_VISUAL"
       - "DEFICIENCIA_MENTAL"
