@@ -216,7 +216,7 @@ components:
             $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem"
         nomeLegislacaoReferencia:
           type: "string"
-       codigoLegislacaoReferencia:
+        codigoLegislacaoReferencia:
           type: "string"
         deficiente:
           oneOf:
