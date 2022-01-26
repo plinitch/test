@@ -1,3509 +1,1755 @@
 openapi: "3.0.1"
-
 info:
-
   title: "portoseguro-soc-api-dev"
-
   description: "API SOC - Porto seguro"
-
   version: "2021-09-17T20:46:06Z"
-
 servers:
-
 - url: "https://api.portoseguro.tunnelhub.io/{basePath}"
-
   variables:
-
     basePath:
-
       default: "/soc-dev"
-
 tags:
-
 - name: "Funcionários"
-
   description: "Operações com funcionários no sistema SOC"
-
 paths:
-
   /v1/empresas/{codigoEmpresa}/buscaFuncionarioPorCpf/{cpf}:
-
     get:
-
       tags:
-
       - "Funcionários"
-
       parameters:
-
       - name: "codigoEmpresa"
-
         in: "path"
-
         description: "Código empresa SOC"
-
         required: true
-
         schema:
-
           type: "string"
-
       - name: "cpf"
-
         in: "path"
-
         description: "CPF do colaborador"
-
         required: true
-
         schema:
-
           type: "string"
-
       responses:
-
         "400":
-
           description: "400 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/ErrorResponse"
-
         "200":
-
           description: "200 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/EmployeeGetDetailResponse"
-
       security:
-
       - api_key: []
-
   /v1/funcionarios/lote:
-
     post:
-
       tags:
-
       - "Funcionários"
-
       requestBody:
-
         content:
-
           application/json":
-
             schema:
-
               $ref: "#/components/schemas/BatchUpdateEmployeeRequestModel"
-
         required: true
-
       responses:
-
         "400":
-
           description: "400 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/ErrorResponse"
-
         "200":
-
           description: "200 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/BatchEmployeeUpdateResponse"
-
       security:
-
       - api_key: []
-
   /v1/empresas/{codigoEmpresa}/funcionarios:
-
     get:
-
       tags:
-
       - "Funcionários"
-
       parameters:
-
       - name: "codigoEmpresa"
-
         in: "path"
-
         description: "Código empresa SOC"
-
         required: true
-
         schema:
-
           type: "string"
-
       responses:
-
         "400":
-
           description: "400 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/ErrorResponse"
-
         "200":
-
           description: "200 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/EmployeeGetAllResponse"
-
       security:
-
       - api_key: []
-
   /v1/funcionarios:
-
     post:
-
       tags:
-
       - "Funcionários"
-
       requestBody:
-
         content:
-
           application/json:
-
             schema:
-
               $ref: "#/components/schemas/UpdateEmployeeRequestModel"
-
         required: true
-
       responses:
-
         "400":
-
           description: "400 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/ErrorResponse"
-
         "200":
-
           description: "200 response"
-
           content:
-
             application/json:
-
               schema:
-
                 $ref: "#/components/schemas/EmployeeUpdateResponse"
-
       security:
-
       - api_key: []
-
 components:
-
   schemas:
-
     ImportacaoFuncionarioFuncionarioTransferencia:
-
       required:
-
       - "copiaFichaClinica"
-
       - "copiaHistoricoLaboral"
-
       - "copiaSocGed"
-
       - "valorizarExamesNaoCobradoNoDestino"
-
       type: "object"
-
       properties:
-
         copiaHistoricoLaboral:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         copiaSocGed:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         copiaFichaClinica:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         valorizarExamesNaoCobradoNoDestino:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         dataTransferencia:
-
           type: "string"
-
         tipoFichaCopia:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioTransferenciaTipoFichaCopia"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoFuncaoBrigadaIncendio:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "COORDENADOR_GERAL"
-
       - "LIDER"
-
       - "CHEFE_DE_BRIGADA"
-
       - "BRIGADISTA"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoCategoria:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_EMPRESAS_GERAL"
-
       - "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_CONTRIB_INDIVIDUAL_PESSOA_FISICA_OU_MISSAO_DIPLOMATICA_E_REPARTICAO_CONSULAR_ESTRANGEIRAS"
-
       - "CONTRIB_INDIVIDUAL_AUTONOMO_CONTRATADO_ENTIDADE_BENEFICENTE_ISENTA_COTA_PATRONAL"
-
       - "EXCLUIDO"
-
       - "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_EMPRESAS_GERAL"
-
       - "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_CONTRIB_INDIVIDUAL_PESSOA_FISICA_OU_MISSAO_DIPLOMATICA_E_REPARTICAO_CONSULAR_ESTRANGEIRAS"
-
       - "CONTRIB_INDIVIDUAL_TRANSPORTADOR_AUTONOMO_CONTRATADO_ENTIDADE_BENEFICENTE_ISENTA_COTA_PATRONAL"
-
     ImportacaoFuncionarioFuncionarioMotivoLicencaWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "CODIGO_INTEGRACAO"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVo:
-
       type: "object"
-
       properties:
-
         reabilitado:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         observacao:
-
           type: "string"
-
         origemDeficiencia:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoOrigemDeficiencia"
-
         gravarHistorico:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         tipoBuscaLegislacaoReferencia:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia"
-
         dataEmissaoLaudo:
-
           type: "string"
-
         codigoMedico:
-
           type: "string"
-
         deficiencia:
-
           type: "string"
-
         classificacaoDeficiencia:
-
           type: "array"
-
           items:
-
             $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem"
-
         nomeLegislacaoReferencia:
-
           type: "string"
-
        codigoLegislacaoReferencia:
-
           type: "string"
-
         deficiente:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         cids:
-
           oneOf:
-
           - type: "object"
-
           - type: "array"
-
             items:
-
               type: "object"
-
         parecerLaudo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoParecerLaudo"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItem:
-
       type: "object"
-
       properties:
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia"
-
         codigo:
-
           type: "string"
-
         classificacao:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao"
-
         nome:
-
           type: "string"
-
     ImportacaoFuncionarioFuncionarioTurnoWsVo:
-
       type: "object"
-
       properties:
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioTurnoWsVoTipoBusca"
-
         codigo:
-
           type: "string"
-
         cargaHorariaSemanal:
-
           type: "string"
-
         nome:
-
           type: "string"
-
         codigoRh:
-
           type: "string"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoParecerLaudo:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "APTO_PARA_FUNCAO"
-
       - "INAPTO_PARA_FUNCAO"
-
     EmployeeGetAllResponse:
-
       type: "array"
-
       description: "Resposta busca geral de funcionários"
-
       items:
-
         $ref: "#/components/schemas/DetalhesFuncionarios"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoEscolaridade:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "ENSINO_FUNDAMENTAL_INCOMPLETO"
-
       - "ENSINO_FUNDAMENTAL_COMPLETO"
-
       - "ENSINO_MEDIO_INCOMPLETO"
-
       - "ENSINO_MEDIO_COMPLETO"
-
       - "ENSINO_SUPERIOR_INCOMPLETO"
-
       - "ENSINO_SUPERIOR_COMPLETO"
-
       - "PROFISSIONALIZANTE"
-
       - "TECNICO_INCOMPLETO"
-
       - "TECNICO_COMPLETO"
-
       - "TECNOLOGO_INCOMPLETO"
-
       - "TECNOLOGO_COMPLETO"
-
       - "POS_GRADUACAO_INCOMPLETA"
-
       - "POS_GRADUACAO_COMPLETA"
-
       - "MESTRADO_INCOMPLETO"
-
       - "MESTRADO_COMPLETO"
-
       - "DOUTORADO_INCOMPLETO"
-
       - "DOUTORADO_COMPLETO"
-
       - "PHD_INCOMPLETO"
-
       - "PHD_COMPLETO"
-
       - "NAO_INFORMADO"
-
       - "ANALFABETO"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoSanguineo:
-
       type: "string"
-
       enum:
-
       - "NENHUM"
-
       - "O_POSITIVO"
-
       - "A_POSITIVO"
-
       - "AB_POSITIVO"
-
       - "B_POSITIVO"
-
       - "O_NEGATIVO"
-
       - "A_NEGATIVO"
-
       - "AB_NEGATIVO"
-
       - "B_NEGATIVO"
-
     ImportacaoFuncionarioFuncionarioCentroCustoWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "CODIGO_RH"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoContratacao:
-
       type: "string"
-
       enum:
-
       - "CLT"
-
       - "COOPERADO"
-
       - "TERCERIZADO"
-
       - "AUTONOMO"
-
       - "TEMPORARIO"
-
       - "PESSOA_JURIDICA"
-
       - "ESTAGIARIO"
-
       - "MENOR_APRENDIZ"
-
       - "ESTATUTARIO"
-
       - "COMISSIONADO_INTERNO"
-
       - "COMISSIONADO_EXTERNO"
-
       - "APOSENTADO"
-
       - "APOSENTADO_INATIVO_PREFEITURA"
-
       - "PENSIONISTA"
-
       - "SERVIDOR_PUBLICO_EFETIVO"
-
       - "EXTRANUMERARIO"
-
       - "AUTARQUICO"
-
       - "INATIVO"
-
       - "TITULO_PRECARIO"
-
       - "SERVIDOR_ADM_CENTRALIZADA_OU_DESCENTRALIZADA"
-
     ImportacaoFuncionarioFuncionarioCargoWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "CODIGO_RH"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoAdmissao:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "ADMISSAO"
-
       - "TRANSFERENCIA_EMPRESA_MESMO_GRUPO"
-
       - "TRANSFERENCIA_EMPRESA_CONSORCIADA"
-
       - "TRANSFERENCIA_MOTIVO_SUCESSAO"
-
     BatchUpdateEmployeeRequestModel:
-
       type: "object"
-
       properties:
-
         payload:
-
           type: "array"
-
           items:
-
             $ref: "#/components/schemas/ImportacaoFuncionario"
-
         wsSecurityAuthentication:
-
           type: "object"
-
           properties:
-
             password:
-
               type: "string"
-
             username:
-
               type: "string"
-
       description: "Dados de funcionários em lote"
-
     ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo:
-
       type: "object"
-
       properties:
-
         cidade:
-
           type: "string"
-
         estado:
-
           type: "string"
-
         unidadeContratante:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         numero:
-
           type: "string"
-
         observacaoASO:
-
           type: "string"
-
         cnpj_cei:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoCnpj_cei"
-
         grauRisco:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         cep:
-
           type: "string"
-
         percentualCalculoBrigada:
-
           type: "string"
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoBusca"
-
         complemento:
-
           type: "string"
-
         complementoCobranca:
-
           type: "string"
-
         codigoCpf:
-
           type: "string"
-
         codigoMunicipioCobranca:
-
           type: "string"
-
         estadoCobranca:
-
           type: "string"
-
         numeroCobranca:
-
           type: "string"
-
         caracterizacaoProcessosAmbientesTrabalho:
-
           type: "string"
-
         bairroCobranca:
-
           type: "string"
-
         codigoCno:
-
           type: "string"
-
         codigo:
-
           type: "string"
-
         endereco:
-
           type: "string"
-
         bairro:
-
           type: "string"
-
         inscricaoMunicipal:
-
           type: "string"
-
         nome:
-
           type: "string"
-
         codigoArquivo:
-
           type: "string"
-
         codigoRh:
-
           type: "string"
-
         dataAssinaturaContrato:
-
           type: "string"
-
         codigoCnpjCei:
-
           type: "string"
-
         observacaoContrato:
-
           type: "string"
-
         codigoCaepf:
-
           type: "string"
-
         tipoCnae:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoCnae"
-
         enderecoCobranca:
-
           type: "string"
-
         observacaoPPP:
-
           type: "string"
-
         inscricaoEstadual:
-
           type: "string"
-
         cepCobranca:
-
           type: "string"
-
         cidadeCobranca:
-
           type: "string"
-
         codigoMunicipio:
-
           type: "string"
-
         razaoSocial:
-
           type: "string"
-
         codigoCnae:
-
           type: "string"
-
         telefoneCat:
-
           type: "string"
-
         descricaoCnae:
-
           type: "string"
-
         status:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
-
     ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "CODIGO_RH"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoTipoCnae:
-
       type: "string"
-
       enum:
-
       - "CNAE"
-
       - "CNAE_2"
-
       - "CNAE_7"
-
       - "CNAE_LIVRE"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoRegimeTrabalho:
-
       type: "string"
-
       enum:
-
       - "NORMAL"
-
       - "TURNO"
-
     ImportacaoFuncionarioFuncionarioMotivoLicencaWsVo:
-
       type: "object"
-
       properties:
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioMotivoLicencaWsVoTipoBusca"
-
         codigo:
-
           type: "string"
-
         codigoDeIntegracao:
-
           type: "string"
-
         nome:
-
           type: "string"
-
     EmployeeGetDetailResponse:
-
       type: "array"
-
       description: "Resposta detalhe funcionário"
-
       items:
-
         $ref: "#/components/schemas/DetalhesFuncionarios"
-
     EmployeeUpdateResponseFuncionarioRetorno:
-
       required:
-
       - "atualizouCargo"
-
       - "atualizouCentroCusto"
-
       - "atualizouFuncionario"
-
       - "atualizouMotivoLicenca"
-
       - "atualizouRegistro"
-
       - "atualizouSetor"
-
       - "atualizouTurno"
-
       - "atualizouUnidade"
-
       - "encontrouCargo"
-
       - "encontrouCentroCusto"
-
       - "encontrouErro"
-
       - "encontrouFuncionario"
-
       - "encontrouMotivoLicenca"
-
       - "encontrouRegistro"
-
       - "encontrouSetor"
-
       - "encontrouTurno"
-
       - "encontrouUnidade"
-
       - "encontrouUnidadeContratante"
-
       - "incluiuCargo"
-
       - "incluiuCentroCusto"
-
       - "incluiuFuncionario"
-
       - "incluiuMotivoLicenca"
-
       - "incluiuRegistro"
-
       - "incluiuSetor"
-
       - "incluiuTurno"
-
       - "incluiuUnidade"
-
       - "incluiuUnidadeContratante"
-
       - "transferiuFuncionario"
-
       type: "object"
-
       properties:
-
         incluiuUnidade:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         observacao:
-
           type: "string"
-
         incluiuTurno:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouCargo:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         codigoFuncionario:
-
           type: "string"
-
         incluiuFuncionario:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouRegistro:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouCargo:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouUnidadeContratante:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouUnidade:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouSetor:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuSetor:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouMotivoLicenca:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouFuncionario:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouUnidade:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouSetor:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouMotivoLicenca:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         descricaoErro:
-
           type: "string"
-
         encontrouRegistro:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouCentroCusto:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouTurno:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atualizouFuncionario:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouErro:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         encontrouTurno:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuCargo:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuRegistro:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         codigoEmpresa:
-
           type: "string"
-
         atualizouCentroCusto:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuUnidadeContratante:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuCentroCusto:
-
           oneOf:
-
           - type: "boolean"
-
          - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         transferiuFuncionario:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         incluiuMotivoLicenca:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoChaveProcuraFuncionario:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "MATRICULA"
-
       - "MATRICULA_RH"
-
       - "CPF"
-
       - "DATA_NASCIMENTO"
-
       - "CPF_PENDENTE"
-
       - "CPF_ATIVO"
-
       - "CPF_DATA_ADMISSAO"
-
       - "CPF_DATA_ADMISSAO_PERIODO"
-
       - "CODIGO_RH"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoCor:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "BRANCO"
-
       - "NEGRO"
-
       - "AMARELO"
-
       - "PARDO"
-
       - "INDIGENA"
-
       - "MULATO"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoCorDosOlhos:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "AZUL"
-
       - "AZUL_ESVERDEADO"
-
       - "CASTANHO"
-
       - "CINZA"
-
       - "VERDE"
-
       - "AVELA"
-
       - "AMBAR"
-
       - "VERMELHO"
-
       - "VIOLETA"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVo:
-
       required:
-
       - "campoInteiro01"
-
       - "campoInteiro02"
-
       - "campoInteiro03"
-
       - "campoInteiro04"
-
       - "campoInteiro05"
-
       - "campoInteiro06"
-
       - "campoInteiro07"
-
       - "campoInteiro08"
-
       - "campoInteiro09"
-
       - "campoInteiro10"
-
       type: "object"
-
       properties:
-
         campoString01:
-
           type: "string"
-
         campoInteiro01:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString02:
-
           type: "string"
-
         ufCtps:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
-
         campoString03:
-
           type: "string"
-
         campoString04:
-
           type: "string"
-
         nrCtps:
-
           type: "string"
-
         campoInteiro04:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString05:
-
           type: "string"
-
         campoInteiro05:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString06:
-
           type: "string"
-
         campoInteiro02:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString07:
-
           type: "string"
-
         campoInteiro03:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString08:
-
           type: "string"
-
         campoInteiro08:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoString09:
-
           type: "string"
-
         campoInteiro09:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoInteiro06:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         campoInteiro07:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         naoPossuiCtps:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         chaveProcuraFuncionario:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoChaveProcuraFuncionario"
-
         remuneracaoMensal:
-
           type: "number"
-
         dataFimPeriodoAquisitivo:
-
           type: "string"
-
         contatoEmergencia:
-
           type: "string"
-
         dataNascimento:
-
           type: "string"
-
         campoString10:
-
           type: "string"
-
         campoString11:
-
           type: "string"
-
         observacaoFuncionario:
-
           type: "string"
-
         campoString12:
-
           type: "string"
-
         campoString13:
-
           type: "string"
-
         campoString14:
-
           type: "string"
-
         campoString15:
-
           type: "string"
-
         campoString16:
-
           type: "string"
-
         campoString17:
-
           type: "string"
-
         bairro:
-
           type: "string"
-
         campoString18:
-
           type: "string"
-
         campoString19:
-
           type: "string"
-
         dataEmissaoCtps:
-
           type: "string"
-
         serieCtps:
-
           type: "string"
-
         matriculaRh:
-
           type: "string"
-
         tipoVinculo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoVinculo"
-
         codigoRh:
-
           type: "string"
-
         dataInicioPeriodoAquisitivo:
-
           type: "string"
-
         rg:
-
           type: "string"
-
         matricula:
-
           type: "string"
-
         nomePai:
-
           type: "string"
-
         nomeSocial:
-
           type: "string"
-
         campoString20:
-
           type: "string"
-
         campoString21:
-
           type: "string"
-
         campoString22:
-
           type: "string"
-
         campoString23:
-
           type: "string"
-
         funcao:
-
           type: "string"
-
         campoString24:
-
           type: "string"
-
         campoString25:
-
           type: "string"
-
         campoString26:
-
           type: "string"
-
         telefoneEmergencia:
-
           type: "string"
-
         campoString27:
-
           type: "string"
-
         telefoneComercial:
-
           type: "string"
-
         campoString28:
-
           type: "string"
-
         parentescoContatoEmergencia:
-
           type: "string"
-
         campoString29:
-
           type: "string"
-
         atividadesPerigosasWsVo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo"
-
         razaoSocialEmpresaFuncionario:
-
           type: "string"
-
         autorizadoMensagemSms:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         dataFinalEstabilidade:
-
           type: "string"
-
         telefoneCelular:
-
           type: "string"
-
         naoPossuiPis:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         cep:
-
           type: "string"
-
         naoPossuiCpf:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         dataDemissao:
-
           type: "string"
-
         naturalidade:
-
           type: "string"
-
         tipoAdmissao:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoAdmissao"
-
         tipoContratacao:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoContratacao"
-
         emailPessoal:
-
           type: "string"
-
         cnpjEmpresaFuncionario:
-
           type: "string"
-
         escolaridade:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoEscolaridade"
-
         campoString30:
-
           type: "string"
-
         dataAfastamento:
-
           type: "string"
-
         regimeTrabalho:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoRegimeTrabalho"
-
         email:
-
           type: "string"
-
         cipaDataFimMandato:
-
           type: "string"
-
         dataDemissionalCarta:
-
           type: "string"
-
         codigoPaisNascimento:
-
           type: "string"
-
         categoria:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCategoria"
-
         tipoBuscaEmpresa:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoBuscaEmpresa"
-
         cns:
-
           type: "string"
-
         codigoEmpresa:
-
           type: "string"
-
         nomeCooperativa:
-
           type: "string"
-
         numeroEndereco:
-
           type: "string"
-
         gfip:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         observacaoPpp:
-
           type: "string"
-
         codigoMunicipio:
-
           type: "string"
-
         tipoSanguineo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoSanguineo"
-
         descricaoAtividade:
-
           type: "string"
-
         naoPossuiMatricula:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         estado:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
-
         situacao:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoSituacao"
-
         cipaDataInicioMandato:
-
           type: "string"
-
         observacaoAso:
-
           type: "string"
-
         cor:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCor"
-
         complementoEndereco:
-
           type: "string"
-
         codigoCategoriaESocial:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         dataAdmissao:
-
           type: "string"
-
         ramalTelefoneEmergencia:
-
           type: "string"
-
         enderecoEmergencia:
-
           type: "string"
-
         rgUf:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps"
-
         dataUltimaMovimentacao:
-
           type: "string"
-
         historicoPPP:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoHistoricoPPP"
-
         rgDataEmissao:
-
           type: "string"
-
         genero:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoGenero"
-
         cpf:
-
           type: "string"
-
         carteiraNacionalSaude:
-
           type: "string"
-
         pis:
-
           type: "string"
-
         telefoneResidencial:
-
           type: "string"
-
         codigo:
-
           type: "string"
-
         corDosOlhos:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCorDosOlhos"
-
         grauInstrucao:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoGrauInstrucao"
-
         rgOrgaoEmissor:
-
           type: "string"
-
         funcaoBrigadaIncendio:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoFuncaoBrigadaIncendio"
-
         utilizarDescricaoRequisitoCargo:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         ramal:
-
           type: "string"
-
         telefoneSms:
-
           type: "string"
-
         cidade:
-
           type: "string"
-
         desabilitarRisco:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         requisitosFuncao:
-
           type: "string"
-
         observacaoEstabilidade:
-
           type: "string"
-
         regimeRevezamento:
-
           type: "string"
-
         campoInteiro10:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         endereco:
-
           type: "string"
-
         estadoCivil:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoEstadoCivil"
-
         cipa:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoCipa"
-
         nomeFuncionario:
-
           type: "string"
-
         sexo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVoSexo"
-
         nomeMae:
-
           type: "string"
-
     EmployeeUpdateResponse:
-
       title: "Resposta de atualização de funcionários SOC"
-
       type: "object"
-
       properties:
-
         FuncionarioRetorno:
-
           $ref: "#/components/schemas/EmployeeUpdateResponseFuncionarioRetorno"
-
       description: "Resposta atualização de funcionários SOC"
-
     ImportacaoFuncionario:
-
       title: "Atualização de funcionários SOC"
-
       type: "object"
-
       properties:
-
         Funcionario:
-
           required:
-
           - "atualizarCargo"
-
           - "atualizarCentroCusto"
-
           - "atualizarFuncionario"
-
           - "atualizarMotivoLicenca"
-
           - "atualizarSetor"
-
           - "atualizarTurno"
-
           - "atualizarUnidade"
-
           - "criarCargo"
-
           - "criarCentroCusto"
-
           - "criarFuncionario"
-
           - "criarHistorico"
-
           - "criarMotivoLicenca"
-
           - "criarSetor"
-
           - "criarTurno"
-
           - "criarUnidade"
-
           - "criarUnidadeContratante"
-
           - "destravarFuncionarioBloqueado"
-
           - "naoImportarFuncionarioSemHierarquia"
-
           - "transferirFuncionario"
-
           type: "object"
-
           properties:
-
             criarUnidadeContratante:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarMotivoLicenca:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarHistorico:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             transferirFuncionario:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             cargoWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVo"
-
             atualizarMotivoLicenca:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             turnoWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioTurnoWsVo"
-
             atualizarCargo:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             atualizarCentroCusto:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             destravarFuncionarioBloqueado:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarFuncionario:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarTurno:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             funcionarioWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioFuncionarioWsVo"
-
             identificacaoWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioIdentificacaoWsVo"
-
             deficienciaWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioDeficienciaWsVo"
-
             criarUnidade:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             atualizarFuncionario:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             atualizarTurno:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             setorWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioSetorWsVo"
-
             centroCustoWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCentroCustoWsVo"
-
             transferencia:
-
              $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioTransferencia"
-
             motivoLicencaWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioMotivoLicencaWsVo"
-
             criarCargo:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             atualizarSetor:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             naoImportarFuncionarioSemHierarquia:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             unidadeContratanteWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo"
-
             unidadeWsVo:
-
               $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVo"
-
             atualizarUnidade:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarSetor:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
             criarCentroCusto:
-
               oneOf:
-
               - type: "boolean"
-
               - maximum: 1
-
                 minimum: 0
-
                 type: "integer"
-
       description: "Atualização funcionários modelo 2 - SOC"
-
     ImportacaoFuncionarioFuncionarioSetorWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "CODIGO_RH"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoUfCtps:
-
       type: "string"
-
       enum:
-
       - "AC"
-
       - "AL"
-
       - "AM"
-
       - "AP"
-
       - "BA"
-
       - "CE"
-
       - "DF"
-
       - "ES"
-
       - "GO"
-
       - "MA"
-
       - "MG"
-
       - "MS"
-
       - "MT"
-
       - "PA"
-
       - "PB"
-
       - "PE"
-
       - "PI"
-
       - "PR"
-
       - "RJ"
-
       - "RN"
-
       - "RO"
-
       - "RR"
-
       - "RS"
-
       - "SC"
-
       - "SE"
-
       - "SP"
-
       - "TO"
-
     DetalhesFuncionarios:
-
       type: "object"
-
       properties:
-
         NOMECARGO:
-
           type: "string"
-
         NOMECENTROCUSTO:
-
           type: "string"
-
         TURNOTRABALHO:
-
           type: "string"
-
         TELCOMERCIAL:
-
           type: "string"
-
         TIPOCONTATACAO:
-
           type: "string"
-
         RAMAL:
-
           type: "string"
-
         EMAIL:
-
           type: "string"
-
         SERIECTPS:
-
           type: "string"
-
         DATA_DEMISSAO:
-
           type: "string"
-
         UF:
-
           type: "string"
-
         TELEFONERESIDENCIAL:
-
           type: "string"
-
         DEFICIENCIA:
-
           type: "string"
-
         REGIMETRABALHO:
-
           type: "string"
-
         NOMEUNIDADE:
-
           type: "string"
-
         ENDERECO:
-
           type: "string"
-
         CODIGOUNIDADE:
-
           type: "string"
-
         UFRG:
-
           type: "string"
-
         TELEFONECELULAR:
-
           type: "string"
-
         REGIMEREVEZAMENTO:
-
           type: "string"
-
         NOMESETOR:
-
           type: "string"
-
         CBOCARGO:
-
           type: "string"
-
         CTPS:
-
           type: "string"
-
         NOMEEMPRESA:
-
           type: "string"
-
         CEP:
-
           type: "string"
-
         BAIRRO:
-
           type: "string"
-
         RG:
-
           type: "string"
-
         NOME:
-
           type: "string"
-
         DATA_NASCIMENTO:
-
           type: "string"
-
         CODIGOCARGO:
-
           type: "string"
-
         MATRICULARH:
-
           type: "string"
-
         RHCARGO:
-
           type: "string"
-
         RHCENTROCUSTOUNIDADE:
-
           type: "string"
-
         CODIGO:
-
          type: "string"
-
         CCUSTO:
-
           type: "string"
-
         CIDADE:
-
           type: "string"
-
         NUMERO_ENDERECO:
-
           type: "string"
-
         DATA_ADMISSAO:
-
           type: "string"
-
         RHSETOR:
-
           type: "string"
-
         DEFICIENTE:
-
           type: "string"
-
         NM_MAE_FUNCIONARIO:
-
           type: "string"
-
         COR:
-
           type: "string"
-
         MATRICULAFUNCIONARIO:
-
           type: "string"
-
         RHUNIDADE:
-
           type: "string"
-
         SITUACAO:
-
           type: "string"
-
         DATAULTALTERACAO:
-
           type: "string"
-
         CODIGOSETOR:
-
           type: "string"
-
         SEXO:
-
           type: "string"
-
         ESTADOCIVIL:
-
           type: "string"
-
         NATURALIDADE:
-
           type: "string"
-
         ORGAOEMISSORRG:
-
           type: "string"
-
         CODIGOEMPRESA:
-
           type: "string"
-
         CPF:
-
           type: "string"
-
         ESCOLARIDADE:
-
           type: "string"
-
         PIS:
-
           type: "string"
-
       description: "Retorno de busca de funcionários - SOC"
-
     ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo:
-
       type: "object"
-
       properties:
-
         codigoAtividadePerigosa:
-
           type: "array"
-
           items:
-
             type: "string"
-
     UpdateEmployeeRequestModel:
-
       type: "object"
-
       properties:
-
         payload:
-
           $ref: "#/components/schemas/ImportacaoFuncionario"
-
         wsSecurityAuthentication:
-
           type: "object"
-
           properties:
-
             password:
-
               type: "string"
-
             username:
-
               type: "string"
-
       description: "Dados de funcionários"
-
     ImportacaoFuncionarioFuncionarioUnidadeContratanteWsVoCnpj_cei:
-
       type: "string"
-
       enum:
-
       - "CNPJ"
-
       - "CEI"
-
       - "CPF"
-
       - "CAEPF"
-
       - "CNO"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoGenero:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "TRAVESTI"
-
       - "TRANSEXUAL"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoGrauInstrucao:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "ANALFABETO"
-
       - "QUINTO_INCOMPLETO"
-
       - "QUINTO_COMPLETO"
-
       - "FUNDAMENTAL_INCOMPLETO"
-
       - "FUNDAMENTAL_COMPLETO"
-
       - "MEDIO_INCOMPLETO"
-
       - "MEDIO_COMPLETO"
-
       - "SUPERIOR_INCOMPLETO"
-
       - "SUPERIOR_COMPLETO"
-
       - "POS_GRADUACAO_COMPLETA"
-
       - "MESTRADO_COMPLETO"
-
       - "DOUTORADO_COMPLETO"
-
     ImportacaoFuncionarioFuncionarioTransferenciaTipoFichaCopia:
-
       required:
-
       - "acidente"
-
       - "admissional"
-
       - "avaliacaoFisica"
-
       - "checkup"
-
       - "consulta"
-
       - "consultaAssist"
-
       - "demissional"
-
       - "enfermagem"
-
       - "especial"
-
       - "licencaMedica"
-
       - "mudancaFuncao"
-
       - "periodico"
-
       - "qualidadeVida"
-
       - "retornoConsulta"
-
       - "retornoTrabalho"
-
       - "terceiros"
-
       type: "object"
-
       properties:
-
         qualidadeVida:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         licencaMedica:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         demissional:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         admissional:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         retornoConsulta:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         especial:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         mudancaFuncao:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         acidente:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         consultaAssist:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         periodico:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         avaliacaoFisica:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         enfermagem:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         retornoTrabalho:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         checkup:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         consulta:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         terceiros:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoEstadoCivil:
-
       type: "string"
-
       enum:
-
       - "SOLTEIRO"
-
       - "CASADO"
-
       - "SEPARADO"
-
       - "DIVORCIADO"
-
       - "VIUVO"
-
       - "OUTROS"
-
       - "DESQUITADO"
-
       - "UNIAO_ESTAVEL"
-
     ImportacaoFuncionarioFuncionarioCentroCustoWsVo:
-
       type: "object"
-
       properties:
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCentroCustoWsVoTipoBusca"
-
         codigo:
-
           type: "string"
-
         nome:
-
           type: "string"
-
         codigoRh:
-
           type: "string"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoHistoricoPPP:
-
       type: "string"
-
       enum:
-
       - "EXIBIR"
-
       - "NAO_EXIBIR"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoSexo:
-
       type: "string"
-
       enum:
-
       - "MASCULINO"
-
       - "FEMININO"
-
     ImportacaoFuncionarioFuncionarioSetorWsVo:
-
       type: "object"
-
       properties:
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioSetorWsVoTipoBusca"
-
         codigo:
-
           type: "string"
-
         observacaoAso:
-
           type: "string"
-
         nome:
-
           type: "string"
-
         codigoRh:
-
           type: "string"
-
         descricao:
-
           type: "string"
-
         status:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoClassificacaoDeficienciaItemClassificacao:
-
       type: "string"
-
       enum:
-
      - "DEFICIENCIA_FISICA"
-
       - "DEFICIENCIA_AUDITIVA"
-
       - "DEFICIENCIA_VISUAL"
-
       - "DEFICIENCIA_MENTAL"
-
       - "DEFICIENCIA_MULTIPLA"
-
       - "REABILITACAO"
-
       - "DEFICIENCIA_INTELECTUAL"
-
     ErrorResponse:
-
       type: "string"
-
       description: "Resposta de erro"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoOrigemDeficiencia:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "ACIDENTE_DE_TRABALHO"
-
       - "CONGENITA"
-
       - "ACIDENTE_COMUM"
-
       - "DOENCA"
-
       - "ADQUIRIDA_EM_POS_OPERATORIO"
-
       - "DESCONHECIDA"
-
       - "OUTRAS"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoCipa:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "EFETIVO"
-
       - "SUPLENTE"
-
       - "RESPONSAVEL"
-
     ImportacaoFuncionarioFuncionarioCargoWsVoStatus:
-
       type: "string"
-
       enum:
-
       - "ATIVO"
-
       - "INATIVO"
-
     BatchEmployeeUpdateResponse:
-
       type: "array"
-
       description: "Resposta atualização de funcionários em lote SOC"
-
       items:
-
         $ref: "#/components/schemas/EmployeeUpdateResponse"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoSituacao:
-
       type: "string"
-
       enum:
-
       - "ATIVO"
-
       - "AFASTADO"
-
       - "PENDENTE"
-
       - "FERIAS"
-
       - "INATIVO"
-
     ImportacaoFuncionarioFuncionarioTurnoWsVoTipoBusca:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "NOME"
-
       - "CODIGO_RH"
-
     ImportacaoFuncionarioFuncionarioIdentificacaoWsVo:
-
       required:
-
       - "homologacao"
-
       type: "object"
-
      properties:
-
         homologacao:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         codigoResponsavel:
-
           type: "string"
-
         codigoUsuario:
-
           type: "string"
-
         chaveAcesso:
-
           type: "string"
-
         codigoEmpresaPrincipal:
-
           type: "string"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoVinculo:
-
       type: "string"
-
       enum:
-
       - "EM_BRANCO"
-
       - "EMPREGATICIO"
-
       - "ASSOCIATIVO"
-
     ImportacaoFuncionarioFuncionarioFuncionarioWsVoTipoBuscaEmpresa:
-
       type: "string"
-
       enum:
-
       - "CODIGO_SOC"
-
       - "CODIGO_CLIENTE"
-
     ImportacaoFuncionarioFuncionarioDeficienciaWsVoTipoBuscaLegislacaoReferencia:
-
       type: "string"
-
       enum:
-
       - "CODIGO"
-
       - "NOME"
-
     ImportacaoFuncionarioFuncionarioCargoWsVo:
-
       required:
-
       - "atualizaDescricaoRequisitosCargoPeloCbo"
-
       type: "object"
-
       properties:
-
         funcao:
-
           type: "string"
-
         codigo:
-
           type: "string"
-
         atualizaDescricaoRequisitosCargoPeloCbo:
-
           oneOf:
-
           - type: "boolean"
-
           - maximum: 1
-
             minimum: 0
-
             type: "integer"
-
         atividadesPerigosasWsVo:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoAtividadesPerigosasWsVo"
-
         nomeLegal:
-
           type: "string"
-
         nome:
-
           type: "string"
-
         codigoRh:
-
           type: "string"
-
         materialUtilizado:
-
           type: "string"
-
         requisitosFuncao:
-
           type: "string"
-
         mobiliarioUtilizado:
-
           type: "string"
-
         localTrabalho:
-
           type: "string"
-
         treinamento:
-
           type: "string"
-
         educacao:
-
           type: "string"
-
         tipoBusca:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoTipoBusca"
-
         cbo:
-
           type: "string"
-
         orientacaoAso:
-
           type: "string"
-
         descricaoLocal:
-
           type: "string"
-
         gfip:
-
           maximum: 2147483647
-
           minimum: -2147483648
-
           type: "integer"
-
         experiencia:
-
           type: "string"
-
         descricaoDetalhada:
-
           type: "string"
-
         habilidades:
-
           type: "string"
-
         status:
-
           $ref: "#/components/schemas/ImportacaoFuncionarioFuncionarioCargoWsVoStatus"
-
   securitySchemes:
-
     api_key:
-
       type: "apiKey"
-
       name: "x-api-key"
-
       in: "header"
